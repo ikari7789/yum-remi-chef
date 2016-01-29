@@ -1,6 +1,6 @@
 #
-# Author:: Sean OMeara (<sean@chef.io>)
-# Recipe:: yum-remi-chef::remi-php55
+# Author:: Andrew Miller (<ikari7789@yahoo.com>)
+# Recipe:: yum-remi-chef::remi-php70
 #
 # Copyright 2016, Chef Software, Inc.
 #
@@ -21,22 +21,20 @@ include_recipe 'yum-remi-chef::remi-safe' unless node['platform'] == 'fedora'
 include_recipe 'yum-remi-chef::remi'
 
 %w(
+  remi-php55
+  remi-php55-debuginfo
   remi-php56
   remi-php56-debuginfo
-  remi-php70
-  remi-php70-debuginfo
-  remi-php70-test
-  remi-php70-test-debuginfo
 ).each do |repo|
-  yum_repository "remi-php55-delete-#{repo}" do
+  yum_repository "remi-php70-delete-#{repo}" do
     repositoryid node['yum'][repo]['repositoryid']
     action :delete
   end
 end
 
 %w(
-  remi-php55
-  remi-php55-debuginfo
+  remi-php70
+  remi-php70-debuginfo
 ).each do |repo|
   next unless node['yum'][repo]['managed']
 

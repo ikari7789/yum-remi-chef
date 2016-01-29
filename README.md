@@ -1,7 +1,7 @@
 # yum-remi-chef Cookbook
 [![Build Status](https://travis-ci.org/chef-cookbooks/yum-remi-chef.svg?branch=master)](http://travis-ci.org/chef-cookbooks/yum-remi-chef) [![Cookbook Version](https://img.shields.io/cookbook/v/yum-remi-chef.svg)](https://supermarket.chef.io/cookbooks/yum-remi-chef)
 
-The yum-remi-chef cookbook takes over management of the repository ids of the [remi](http://rpms.famillecollet.com/) repository . It allows attribute manipulation of `remi`, `remi-php55`, `remi-php56`, and `remi-test` repositories.
+The yum-remi-chef cookbook takes over management of the repository ids of the [remi](http://rpms.remirepo.net/) repository . It allows attribute manipulation of `remi`, `remi-php55`, `remi-php56`, `remi-php70`, and `remi-test` repositories.
 
 ## Requirements
 ### Chef
@@ -11,26 +11,19 @@ The yum-remi-chef cookbook takes over management of the repository ids of the [r
 - yum version 3.2.0 or higher
 - yum-epel
 
-### Platforms
+## Platforms
 The following platforms have been tested with Test Kitchen:
 
-```
-|-----------+------+------------+------------|
-|           | remi | remi-php55 | remi-php56 |
-|-----------+------+------------+------------|
-| centos-5  | X    | X          | X          |
-|-----------+------+------------+------------|
-| centos-6  | X    | X          | X          |
-|-----------+------+------------+------------|
-| centos-7  | X    | X          | X          |
-|-----------+------+------------+------------|
-| redhat-7  | X    | X          | X          |
-|-----------+------+------------+------------|
-| fedora-21 | X    |            | X          |
-|-----------+------+------------+------------|
-| fedora-22 | X    |            |            |
-|-----------+------+------------+------------|
-```
+|               |  remi  |  remi-safe  |  remi-test  |  remi-php55  |  remi-php56  |  remi-php70  |  remi-php70-test  |
+|---------------|:------:|:-----------:|:-----------:|:------------:|:------------:|:------------:|:-----------------:|
+| **centos-5**  |    X   |             |      X      |       X      |       X      |              |                   |
+| **centos-6**  |    X   |      X      |      X      |       X      |       X      |       X      |         X         |
+| **centos-7**  |    X   |      X      |      X      |       X      |       X      |       X      |         X         |
+| **redhat-7**  |    X   |      X      |      X      |       X      |       X      |       X      |         X         |
+| **fedora-20** |    X   |             |      X      |       X      |       X      |              |                   |
+| **fedora-21** |    X   |             |      X      |              |              |       X      |         X         |
+| **fedora-22** |    X   |             |      X      |              |              |       X      |         X         |
+| **fedora-23** |    X   |             |      X      |              |              |       X      |         X         |
 
 Amazon Linux is _not_ supported by the Remi repository. Amazon maintains their own PHP packages natively, as php53, php54, php55, and php56.
 
@@ -39,29 +32,38 @@ The following attributes are set by default
 
 ```ruby
 default['yum']['remi']['repositoryid'] = 'remi'
-default['yum']['remi']['baseurl'] = 'http://rpms.famillecollet.com/enterprise/5/remi/$basearch/'
-default['yum']['remi']['description'] = 'Les RPM de remi pour Enterprise Linux 5 - $basearch'
+default['yum']['remi']['mirrorlist'] = 'http://rpms.remirepo.net/enterprise/6/remi/mirror'
+default['yum']['remi']['description'] = "Remi's RPM repository for Enterprise Linux 6 - $basearch"
 default['yum']['remi']['enabled'] = true
 default['yum']['remi']['gpgcheck'] = true
-default['yum']['remi']['gpgkey'] = 'http://rpms.famillecollet.com/RPM-GPG-KEY-remi'
+default['yum']['remi']['gpgkey'] = 'http://rpms.remirepo.net/RPM-GPG-KEY-remi'
 ```
 
 ```ruby
 default['yum']['remi-php55']['repositoryid'] = 'remi-php55'
-default['yum']['remi-php55']['baseurl'] = 'http://rpms.famillecollet.com/enterprise/5/php55/$basearch/'
-default['yum']['remi-php55']['description'] = 'Les RPM de remi de PHP 5.5 pour Enterprise Linux 5 - $basearch'
+default['yum']['remi-php55']['mirrorlist'] = 'http://rpms.remirepo.net/enterprise/6/php55/mirror'
+default['yum']['remi-php55']['description'] = "Remi's PHP 5.5 RPM repository for Enterprise Linux 6 - $basearch"
 default['yum']['remi-php55']['enabled'] = true
 default['yum']['remi-php55']['gpgcheck'] = true
-default['yum']['remi-php55']['gpgkey'] = 'http://rpms.famillecollet.com/RPM-GPG-KEY-remi'
+default['yum']['remi-php55']['gpgkey'] = 'http://rpms.remirepo.net/RPM-GPG-KEY-remi'
 ```
 
 ```ruby
 default['yum']['remi-php55']['repositoryid'] = 'remi-php56'
-default['yum']['remi-php55']['baseurl'] = 'http://rpms.famillecollet.com/enterprise/5/php56/$basearch/'
-default['yum']['remi-php55']['description'] = 'Les RPM de remi de PHP 5.6 pour Enterprise Linux 5 - $basearch'
+default['yum']['remi-php55']['mirrorlist'] = 'http://rpms.remirepo.net/enterprise/6/php56/mirror'
+default['yum']['remi-php55']['description'] = "Remi's PHP 5.6 RPM repository for Enterprise Linux 6 - $basearch"
 default['yum']['remi-php55']['enabled'] = true
 default['yum']['remi-php55']['gpgcheck'] = true
-default['yum']['remi-php55']['gpgkey'] = 'http://rpms.famillecollet.com/RPM-GPG-KEY-remi'
+default['yum']['remi-php55']['gpgkey'] = 'http://rpms.remirepo.net/RPM-GPG-KEY-remi'
+```
+
+```ruby
+default['yum']['remi-php55']['repositoryid'] = 'remi-php70'
+default['yum']['remi-php55']['mirrorlist'] = 'http://rpms.remirepo.net/enterprise/6/php70/mirror'
+default['yum']['remi-php55']['description'] = "Remi's PHP 7.0 RPM repository for Enterprise Linux 6 - $basearch"
+default['yum']['remi-php55']['enabled'] = true
+default['yum']['remi-php55']['gpgcheck'] = true
+default['yum']['remi-php55']['gpgkey'] = 'http://rpms.remirepo.net/RPM-GPG-KEY-remi'
 ```
 
 ## Recipes
@@ -71,11 +73,11 @@ default['yum']['remi-php55']['gpgkey'] = 'http://rpms.famillecollet.com/RPM-GPG-
 
 ```ruby
   yum_repository 'remi' do
-    baseurl 'http://rpms.famillecollet.com/enterprise/6/remi/$basearch/'
-    description 'Les RPM de remi pour Enterprise Linux 6 - $basearch'
+    mirrorlist 'http://rpms.remirepo.net/enterprise/6/remi/mirror'
+    description "Remi's RPM repository for Enterprise Linux 6 - $basearch"
     enabled true
     gpgcheck true
-    gpgkey 'http://rpms.famillecollet.com/RPM-GPG-KEY-remi'
+    gpgkey 'http://rpms.remirepo.net/RPM-GPG-KEY-remi'
   end
 ```
 
